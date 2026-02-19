@@ -31,7 +31,7 @@
     "ui": { "enabled": true, "port": 4000 }
   },
   "hosting": {
-    "public": "dist",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",

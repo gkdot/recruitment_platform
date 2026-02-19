@@ -1,41 +1,8 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    // Role helpers
-    function hasRole(r) {
-      return isSignedIn() && request.auth.token.role == r;
-    }
-
-    function hasAnyRole(list) {
-      return isSignedIn() && request.auth.token.role in list;
-    }
-
-    // Applicants can only read/write their own application
-    match /applications/{uid} {
-      allow read, write: if isSignedIn() && request.auth.uid == uid && hasRole("applicant");
-    }
-
-    // Admins can read all applications, but not edit
-    match /applications/{uid} {
-      allow read: if hasAnyRole(["admin", "super_admin"]);
-      allow update: if hasRole("admin") || hasRole("super_admin");
-    }
-
-    // Coordinators may only update "status" field
-    match /applications/{uid} {
-      allow update: if hasRole("interviewer") &&
-                    request.resource.data.keys().hasOnly(["status"]);
-    }
-
-    // Super admins: full access to everything
     match /{document=**} {
-      allow read, write: if hasRole("super_admin");
+      allow read, write: if true;
     }
   }
 }
