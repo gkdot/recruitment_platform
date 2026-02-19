@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -30,6 +30,8 @@ function friendlyAuthError(code?: string) {
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as any)?.from?.pathname || "/dashboard";
 
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const isSignup = mode === "signup";
@@ -59,7 +61,7 @@ export default function Login() {
       }
 
       // Important: redirect after auth succeeds. AuthProvider will pick up user state.
-      navigate("/dashboard", { replace: true });
+      navigate(from, { replace: true });
     } catch (err: any) {
       // Firebase errors usually include a "code" like "auth/invalid-email"
       const message = friendlyAuthError(err?.code);
