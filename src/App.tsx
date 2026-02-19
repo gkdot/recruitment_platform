@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import Login from "./pages/Login/Login"
-import Dashboard from "./pages/Dashboard"
+import Dashboard from "./pages/Dashboards/Dashboard"
 import ProtectedRoute from "./auth/ProtectedRoute";
 import './App.css'
 
